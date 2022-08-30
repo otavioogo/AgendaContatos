@@ -22,11 +22,9 @@ ArrayList<JavaBeans> lista = (ArrayList<JavaBeans>) request.getAttribute("contat
 			<tr>
 				<th>Id</th>
 				<th>Nome</th>
-				<th>Fone</th>
+				<th>fone</th>
 				<th>E-mail</th>
 			</tr>
-
-
 		</thead>
 		<tbody>
 			<%
