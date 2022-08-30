@@ -77,6 +77,8 @@ public class Controller extends HttpServlet {
 		String idcon = request.getParameter("idcon");
 		// SETAR VARIAVEL JAVABEANS
 		contato.setIdcon(idcon);
+		// Executar o metodo selecionarCOntato (DAO)
+		dao.selecionarContato(contato);
 		
 	}
 	
