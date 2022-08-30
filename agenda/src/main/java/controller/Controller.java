@@ -3,6 +3,7 @@ package controller;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -43,6 +44,10 @@ public class Controller extends HttpServlet {
 			throws ServletException, IOException {
 		// CRIANDO UM OBJETO QUE IRA RECEBER OS DADOS JAVABEANS
 		ArrayList<JavaBeans> lista = dao.listarContatos();
+		//ENCAMINHAR A LISTA AO DOCUMENTO AGENDA.JSP
+		request.setAttribute("contatos", lista);
+		RequestDispatcher rd = request.getRequestDispatcher("agenda.jsp");
+		rd.forward(request, response);
 	}
 
 	// Novo Contatos
