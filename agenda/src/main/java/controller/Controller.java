@@ -68,10 +68,6 @@ public class Controller extends HttpServlet {
 	protected void novoContato(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		// TESTE
-		System.out.println(request.getParameter("nome"));
-		System.out.println(request.getParameter("fone"));
-		System.out.println(request.getParameter("email"));
 		// SETAR VARIAVEIS JAVABEANS
 		contato.setNome(request.getParameter("nome"));
 		contato.setFone(request.getParameter("fone"));
@@ -79,7 +75,9 @@ public class Controller extends HttpServlet {
 		// INVOCAR O METODO INSERIRCONTATO PASSANDO O OBJETO CONTATO
 		dao.inserirContato(contato);
 		// REDIRECIONAR PARA O DOCUMENTO AGENDA.JSP
-		response.sendRedirect("Main");
+		response.sendRedirect("main");
+		
+		
 	}
 
 	// EDITAR CONTATO
@@ -139,22 +137,30 @@ public class Controller extends HttpServlet {
 			response.addHeader("content-Disposition", "inline; filename=" + "contatos.pdf");
 			// CRIAR O DOCUMENTO
 			PdfWriter.getInstance(documento, response.getOutputStream());
-			//ABRIR O DOCUMENTO PARA GERAR O CONTEUDO
+			// ABRIR O DOCUMENTO PARA GERAR O CONTEUDO
 			documento.open();
 			documento.add(new Paragraph("Lista de Contatos:"));
 			documento.add(new Paragraph(" "));
-			//CRIAR UMA TABELA
+			// CRIAR UMA TABELA
 			PdfPTable tabela = new PdfPTable(3);
-			//CABECALHO
+			// CABECALHO
 			PdfPCell col1 = new PdfPCell(new Paragraph("Nome"));
 			PdfPCell col2 = new PdfPCell(new Paragraph("Fone"));
 			PdfPCell col3 = new PdfPCell(new Paragraph("Email"));
 			tabela.addCell(col1);
 			tabela.addCell(col2);
 			tabela.addCell(col3);
+
+			// POPULAR A TABELA COM OS CONTATOS
+			ArrayList<JavaBeans> lista = dao.listarContatos();
+			for (int i = 0; i < lista.size(); i++) {
+				tabela.addCell(lista.get(i).getNome());
+				tabela.addCell(lista.get(i).getFone());
+				tabela.addCell(lista.get(i).getEmail());
+			}
 			documento.add(tabela);
-			
-			//FECHAR O DOCUMENTO
+
+			// FECHAR O DOCUMENTO
 			documento.close();
 		} catch (Exception e) {
 			System.out.println(e);
